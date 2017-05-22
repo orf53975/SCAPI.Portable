@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using SCAPI.Contracts;
 using SCAPI.Utils;
@@ -101,14 +102,14 @@ namespace SCAPI.Core
 						"&grant_type=password&username=", WebUtility.UrlEncode(Email), "&password=", WebUtility.UrlEncode(Password));
 					Debug.WriteLine("API REQUEST: " + authUrl);
 					var request = (HttpWebRequest)WebRequest.Create(authUrl);
-					Helpers.Utils.SetHeader(request, "User-Agent", UserAgent.GetAgent(userAgents));
+					request.SetHeader("User-Agent", UserAgent.GetAgent(userAgents));
 
 					request.Method = "POST";
 					request.ContentType = "application/json";
-					Helpers.Utils.SetHeader(request, "Content-Length", "0");
+					request.SetHeader("Content-Length", "0");
 
-					if (true) Helpers.Utils.SetHeader(request, "Accept-Encoding", "gzip, deflate");
-					Helpers.Utils.SetHeader(request, "Content-Length", "0");
+					if (true) request.SetHeader("Accept-Encoding", "gzip, deflate");
+					request.SetHeader("Content-Length", "0");
 					//if (proxyType == ProxyType.SOCKS4)
 					//{
 					//	var socksProxy =
@@ -180,11 +181,11 @@ namespace SCAPI.Core
 				var request = (HttpWebRequest)WebRequest.Create(authUrl);
 				request.Method = "POST";
 				request.ContentType = "application/x-form-urlencoded";
-				Helpers.Utils.SetHeader(request, "Content-Length", "0");
+				request.SetHeader("Content-Length", "0");
 
 
-				if (true) Helpers.Utils.SetHeader(request, "Accept-Encoding", "gzip, deflate");
-				Helpers.Utils.SetHeader(request, "Content-Length", "0");
+				if (true) request.SetHeader("Accept-Encoding", "gzip, deflate");
+				request.SetHeader("Content-Length", "0");
 
 				var response = (HttpWebResponse)request.GetResponseAsync().Result;
 				var stream = response.GetResponseStream();
@@ -399,24 +400,5 @@ namespace SCAPI.Core
 		//		return Codes.Other;
 		//	}
 		//}
-	}
-
-	public static class Extensions
-	{
-		//public static Codes DownloadTo(this TrackObject track, string path)
-		//{
-		//	return SoundCloudClient.DownloadTrack(track, path);
-		//}
-		public static Task<T> WithTimeout<T>(this Task<T> task, int duration)
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				bool b = task.Wait(duration);
-				if (b) return task.Result;
-				return default(T);
-			});
-		}
-
-
 	}
 }

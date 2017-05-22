@@ -53,7 +53,7 @@ namespace SCAPI.Core
 				}
 			}
 
-			var request = (HttpWebRequest) WebRequest.Create(sb.ToString());
+			var request = (HttpWebRequest)WebRequest.Create(sb.ToString());
 			//if (proxyType == ProxyType.SOCKS4)
 			//{
 			//	var socksProxy = new SocksWebProxy(new ProxyConfig(IPAddress.Parse("127.0.0.1"), 12345, IPAddress.Parse(proxyIp), proxyPort, ProxyConfig.SocksVersion.Four));
@@ -69,18 +69,18 @@ namespace SCAPI.Core
 			//	var httpProxy = new WebProxy(proxyIp, proxyPort);
 			//	request.Proxy = httpProxy;
 			//}
-			Helpers.Utils.SetHeader(request, "User-Agent", userAgents.ToString());
-			Helpers.Utils.SetHeader(request, "Accept-Encoding", "gzip, deflate");
+			request.SetHeader("User-Agent", userAgents.ToString());
+			request.SetHeader("Accept-Encoding", "gzip, deflate");
 			request.Method = requestType.ToString();
 			request.ContentType = "application/json";
-		
+
 			if (requestType.ToString() == "PUT" && jsonObject != "")
 			{
 				using (var streamWriter = new StreamWriter(request.GetRequestStreamAsync().Result))
 					streamWriter.Write(jsonObject);
 			}
 			else
-				Helpers.Utils.SetHeader(request, "Content-Length", "0");
+				request.SetHeader("Content-Length", "0");
 
 			Debug.WriteLine("API REQUEST: " + sb);
 
@@ -125,7 +125,7 @@ namespace SCAPI.Core
 			return json;
 		}
 
-		
+
 		//public static bool CreateAccount(string email, string password, string proxyIp = "", int proxyPort = 0, ProxyType proxyType = ProxyType.NO_PROXY, UserAgents userAgents = UserAgents.Windows_NT_6_1_WOW64)
 		//{
 		//	var url = "https://soundcloud.com/connect/signup";

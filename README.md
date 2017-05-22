@@ -1,12 +1,10 @@
-# SoundCloud C# API
+# SoundCloud Portable C# API
 
 ## Commands
 
 ### Authentication
 ```csharp
 SoundCloudClient.Authenticate(clientId, clientSecret, email, password);
-// or
-SoundCloudClient.Authenticate(clientId, clientSecret, email, password, "127.0.0.1", 8080, ProxyType.NO_PROXY, UserAgents.Windows_NT_6_1_WOW64);
 ```
 
 #### Me Commands
@@ -67,9 +65,10 @@ List<SearchObject> query = Track.SearchTracks("Some Query", 2, ref tracksPage);
 Track.AddTrackToFavorites(1234);
 Track.RepostTrack(1234);
 
-Codes result = Track
-	.Resolve("https://soundcloud.com/user/tracktitle")
-	.DownloadTo(@"\\Desktop\\");
+#TODO
+//Codes result = Track
+//	.Resolve("https://soundcloud.com/user/tracktitle")
+//	.DownloadTo(@"\\Desktop\\");
 ```
 
 #### Set Commands

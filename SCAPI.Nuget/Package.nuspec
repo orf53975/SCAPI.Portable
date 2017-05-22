@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>SCAPI_Core</id>
+    <id>SCAPI_Core_PCL</id>
     <version>1.0.0.0</version>
-    <title>SCAPI - Sound Cloud API</title>
+    <title>SCAPI - Sound Cloud API - PCL</title>
     <authors>Jesse Nelson</authors>
     <owners>Jesse Nelson</owners>
     <description>
@@ -23,7 +23,7 @@
     </copyright>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="Newtonsoft.Json" version="10.0.0.0" />
       </group>
     </dependencies>
     <references>
