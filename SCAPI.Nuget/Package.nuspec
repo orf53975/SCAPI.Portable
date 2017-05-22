@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>SCAPI_Core</id>
+    <version>1.0.0.0</version>
+    <title>SCAPI - Sound Cloud API</title>
+    <authors>Jesse Nelson</authors>
+    <owners>Jesse Nelson</owners>
+    <description>
+	  An api for SoundCloud that also contains a proxy and downloader
+	</description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>
+	  An api for SoundCloud that also contains a proxy and downloader
+	</summary>
+    <language>en-US</language>
+    <projectUrl>https://github.com/ic3y808/SCAPI</projectUrl>
+    <iconUrl>https://github.com/ic3y808/SCAPI/blob/master/SCAPI/Resources/cloud.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/ic3y808/SCAPI/blob/master/License.txt</licenseUrl>
+    <copyright>
+    </copyright>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+      </group>
+    </dependencies>
+    <references>
+    </references>
+    <tags>
+    </tags>
+  </metadata>
+  <files>
+    <file src="lib\" target="lib" />
+  </files>
+</package>
