@@ -134,8 +134,8 @@ namespace SCAPI.Core
 					var stream = response.GetResponseStream();
 					try
 					{
-						if (response.Headers["Content-Encoding"].Equals("gzip") ||
-							response.Headers["Content-Encoding"].Equals("deflate"))
+						if (response.Headers["Content-Encoding"] != null && (response.Headers["Content-Encoding"].Equals("gzip") ||
+							response.Headers["Content-Encoding"].Equals("deflate")))
 							if (stream != null) stream = new GZipStream(stream, CompressionMode.Decompress);
 					}
 					catch (Exception e)
@@ -191,7 +191,8 @@ namespace SCAPI.Core
 				var stream = response.GetResponseStream();
 				try
 				{
-					if (response.Headers["ContentEncoding"].Equals("gzip") || response.Headers["ContentEncoding"].Equals("deflate"))
+					if (response.Headers["Content-Encoding"] != null && (response.Headers["Content-Encoding"].Equals("gzip") ||
+																		 response.Headers["Content-Encoding"].Equals("deflate")))
 						if (stream != null) stream = new GZipStream(stream, CompressionMode.Decompress);
 				}
 				catch (Exception e)

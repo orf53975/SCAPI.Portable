@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-//using SCAPI.Proxy;
 using SCAPI.Utils;
 
 namespace SCAPI.Core
@@ -99,7 +98,7 @@ namespace SCAPI.Core
 			var stream = response.GetResponseStream();
 			try
 			{
-				if (response.Headers["Content-Encoding"].Equals("gzip") || response.Headers["Content-Encoding"].Equals("deflate"))
+				if (response.Headers["Content-Encoding"] != null && (response.Headers["Content-Encoding"].Equals("gzip") || response.Headers["Content-Encoding"].Equals("deflate")))
 					if (stream != null) stream = new GZipStream(stream, CompressionMode.Decompress);
 			}
 			catch
@@ -120,91 +119,10 @@ namespace SCAPI.Core
 					Debug.WriteLine("");
 				}
 			}
-			//stream.Dispose();
+			stream.Dispose();
 
 			return json;
 		}
-
-
-		//public static bool CreateAccount(string email, string password, string proxyIp = "", int proxyPort = 0, ProxyType proxyType = ProxyType.NO_PROXY, UserAgents userAgents = UserAgents.Windows_NT_6_1_WOW64)
-		//{
-		//	var url = "https://soundcloud.com/connect/signup";
-		//	var sb = new StringBuilder(url);
-
-
-		//	var request = (HttpWebRequest) WebRequest.Create(sb.ToString());
-		//	if (proxyType == ProxyType.SOCKS4)
-		//	{
-		//		var socksProxy = new SocksWebProxy(new ProxyConfig(IPAddress.Parse("127.0.0.1"), 12345, IPAddress.Parse(proxyIp), proxyPort, ProxyConfig.SocksVersion.Four));
-		//		request.Proxy = socksProxy;
-		//	}
-		//	else if (proxyType == ProxyType.SOCKS5)
-		//	{
-		//		var socksProxy = new SocksWebProxy(new ProxyConfig(IPAddress.Parse("127.0.0.1"), 12345, IPAddress.Parse(proxyIp), proxyPort, ProxyConfig.SocksVersion.Five));
-		//		request.Proxy = socksProxy;
-		//	}
-		//	else if (proxyType == ProxyType.HTTP)
-		//	{
-		//		var httpProxy = new WebProxy(proxyIp, proxyPort);
-		//		request.Proxy = httpProxy;
-		//	}
-		//	request.UserAgent = UserAgent.GetAgent(userAgents);
-		//	request.Method = "POST";
-		//	request.ContentType = "application/json";
-		//	request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate");
-		//	request.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.8");
-
-		//	var requestData = @"return_to=https%3A%2F%2Fsoundcloud.com%2Fconnect%2Fsignup_details%3Fclient_id%3D02gUJC0hH2ct1EGOcYXQIzRFU91c72Ea%26display%3Dnext%26redirect_uri%3Dhttps%253A%252F%252Fsoundcloud.com%252Fsoundcloud-callback.html%26response_type%3Dtoken%26scope%3Dnon-expiring%2Bfast-connect%2Bpurchase%2Bupload&signup_denied_url=https%3A%2F%2Fsoundcloud.com%2Fsoundcloud-callback.html%3Ferror%3Dsignup_denied%26error_description%3DSign%2Bup%2Bwas%2Bdenied%2Bfor%2Bthis%2Buser.%23&client_id=02gUJC0hH2ct1EGOcYXQIzRFU91c72Ea&redirect_uri=https%3A%2F%2Fsoundcloud.com%2Fsoundcloud-callback.html&response_type=token&scope=non-expiring+fast-connect+purchase+upload&display=next&user%5Bemail%5D=";
-		//	requestData += WebUtility.UrlEncode(email) + @"&user%5Bpassword%5D=";
-		//	requestData += WebUtility.UrlEncode(password) + @"&user%5Bpassword_confirmation%5D=" + WebUtility.UrlEncode(password) + "& user%5Bterms_of_use%5D=1";
-
-		//	using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-		//	{
-		//		streamWriter.Write(requestData);
-		//	}
-
-		//	Debug.WriteLine("API REQUEST: " + sb);
-
-		//	var response = request.GetResponseNoException();
-
-		//	if (response == null) return false;
-
-		//	try
-		//	{
-		//		response = (HttpWebResponse) request.GetResponse();
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		Debug.WriteLine("");
-		//	}
-
-		//	var stream = response.GetResponseStream();
-		//	try
-		//	{
-		//		if (response.Headers[HttpResponseHeader.ContentEncoding].Equals("gzip") || response.Headers[HttpResponseHeader.ContentEncoding].Equals("deflate"))
-		//			if (stream != null) stream = new GZipStream(stream, CompressionMode.Decompress);
-		//	}
-		//	catch
-		//	{
-		//		Debug.WriteLine("");
-		//	}
-		//	var json = "";
-
-		//	if (stream == null) return false;
-		//	using (var reader = new StreamReader(stream))
-		//	{
-		//		try
-		//		{
-		//			json = reader.ReadToEnd();
-		//		}
-		//		catch
-		//		{
-		//			Debug.WriteLine("");
-		//		}
-		//	}
-		//	stream.Close();
-		//	return true;
-		//}
 
 		public static string ProcessUserRequest(UserRequestType t)
 		{

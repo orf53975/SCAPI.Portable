@@ -15,10 +15,10 @@
 	  An api for SoundCloud that also contains a proxy and downloader
 	</summary>
     <language>en-US</language>
-    <projectUrl>https://github.com/ic3y808/SCAPI</projectUrl>
-    <iconUrl>https://github.com/ic3y808/SCAPI/blob/master/SCAPI/Resources/cloud.png</iconUrl>
+    <projectUrl>https://github.com/ic3y808/SCAPI.Portable</projectUrl>
+    <iconUrl>https://github.com/ic3y808/SCAPI.Portable/blob/master/cloud.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/ic3y808/SCAPI/blob/master/License.txt</licenseUrl>
+    <licenseUrl>https://github.com/ic3y808/SCAPI.Portable/blob/master/License.txt</licenseUrl>
     <copyright>
     </copyright>
     <dependencies>

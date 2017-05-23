@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCAPI.Nuget", "SCAPI.Nuget\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F31906DA-7750-43DA-BB97-EC36D7F29B2A}"
 	ProjectSection(SolutionItems) = preProject
+		cloud.png = cloud.png
 		README.md = README.md
 	EndProjectSection
 EndProject

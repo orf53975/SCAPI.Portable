@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Diagnostics;
+using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SCAPI.Utils
@@ -19,10 +22,23 @@ namespace SCAPI.Utils
 			});
 		}
 
-		public static void SetHeader(this HttpWebRequest request, string header, string value)
+		public static void SetHeader(this HttpWebRequest Request, string Header, string Value)
 		{
-			request.Headers[header] = value;
+			Type t = Request.GetType();
+			var properties = t.GetRuntimeProperties();
+			foreach (var propertyInfo in properties)
+			{
+				Debug.WriteLine(propertyInfo.Name);
+			}
+			//if (propertyInfo != null)
+			//{
+			//	var value = Convert.ChangeType(Value, Nullable.GetUnderlyingType(propertyInfo.PropertyType));
+			//	propertyInfo.SetValue(Request, value, null);
+			//}
+			//else
+			//{
+			//	Request.Headers[Header] = Value;
+			//}
 		}
-
 	}
 }
