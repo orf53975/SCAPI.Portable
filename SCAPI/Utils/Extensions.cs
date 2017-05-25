@@ -25,20 +25,17 @@ namespace SCAPI.Utils
 		public static void SetHeader(this HttpWebRequest Request, string Header, string Value)
 		{
 			Type t = Request.GetType();
-			var properties = t.GetRuntimeProperties();
-			foreach (var propertyInfo in properties)
+			var propertyInfo = t.GetRuntimeProperty(Header.Replace("-", string.Empty));
+
+			if (propertyInfo != null)
 			{
-				Debug.WriteLine(propertyInfo.Name);
+				var value = Convert.ChangeType(Value, Nullable.GetUnderlyingType(propertyInfo.PropertyType));
+				propertyInfo.SetValue(Request, value, null);
 			}
-			//if (propertyInfo != null)
-			//{
-			//	var value = Convert.ChangeType(Value, Nullable.GetUnderlyingType(propertyInfo.PropertyType));
-			//	propertyInfo.SetValue(Request, value, null);
-			//}
-			//else
-			//{
-			//	Request.Headers[Header] = Value;
-			//}
+			else
+			{
+				Request.Headers[Header] = Value;
+			}
 		}
 	}
 }
