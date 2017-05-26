@@ -37,20 +37,11 @@ Me.RemoveFollowing(1234);
 UserObject user = User.Resolve("https://soundcloud.com/user");
 UserObject user = User.GetUser(1234);
 
-int page = 0;
-List<UserObject> users = User.GetUsers(10, 2, ref page);
-
-int userTracksPage = 0;
-List<TrackObject> userTracks = User.GetTracks(1234, 2, ref userTracksPage);
-
-int refPage = 0;
-List<PlaylistObject> pLists = User.GetPlaylists(1234, 2, ref refPage);
-
-int followersPage = 0;
-List<UserObject> followers = User.GetFollowers(Auth.testUserId, 2, ref followersPage);
-
-int followersPage = 0;
-List<UserObject> followers = User.GetFollowings(Auth.testUserId, 2, ref followersPage);
+List<UserObject> users = User.GetUsers(10, 2, 0);
+List<TrackObject> userTracks = User.GetTracks(1234, 2, 0);
+List<PlaylistObject> pLists = User.GetPlaylists(1234, 2, 0);
+List<UserObject> followers = User.GetFollowers(1234, 2, 0);
+List<UserObject> followers = User.GetFollowings(1234, 2, 0);
 
 ```
 
@@ -59,8 +50,7 @@ List<UserObject> followers = User.GetFollowings(Auth.testUserId, 2, ref follower
 TrackObject track = Track.GetTrack(1234);
 TrackObject track = Track.Resolve("https://soundcloud.com/user/tracktitle");
 
-int tracksPage = 0;
-List<SearchObject> query = Track.SearchTracks("Some Query", 2, ref tracksPage);
+List<SearchObject> query = Track.SearchTracks("Some Query", 2, 0);
 
 Track.AddTrackToFavorites(1234);
 Track.RepostTrack(1234);
