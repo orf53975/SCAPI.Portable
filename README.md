@@ -12,12 +12,12 @@ SoundCloudClient.Authenticate(clientId, clientSecret, email, password);
 UserObject me = Me.GetMe();
 
 int page = 0;
-List<TrackObject> tracks = Me.GetMyTracks(2, ref page);
-List<TrackObject> followers = Me.GetMyFavorites(2, ref page);
-List<TrackObject> stream = Me.GetMyStream(2, ref page);
-List<UserObject> followings = Me.GetMyFolowings(2, ref page);
-List<UserObject> followers = Me.GetMyFollowers(2, ref page);
-List<PlaylistObject> playlists = Me.GetMyPlaylists(2, ref page);
+List<TrackObject> tracks = Me.GetMyTracks(2, 0);
+List<TrackObject> followers = Me.GetMyFavorites(2, 0);
+List<TrackObject> stream = Me.GetMyStream(2, 0);
+List<UserObject> followings = Me.GetMyFolowings(2, 0);
+List<UserObject> followers = Me.GetMyFollowers(2, 0);
+List<PlaylistObject> playlists = Me.GetMyPlaylists(2, 0);
 
 Me.SetMyDescription("Test");
 Me.SetMyDisplayName("Test");
