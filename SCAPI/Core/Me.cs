@@ -36,7 +36,7 @@ namespace SCAPI.Core
 			while (true)
 			{
 				var param = new Dictionary<string, object> { { "limit", 200 }, { "linked_partitioning", page }, { "offset", page * 200 } };
-				var request = await SCApi.ApiRequest(UserRequestType.UserTracks, param, GetMe().Id, RequestType.GET);
+				var request = await SCApi.ApiRequest(UserRequestType.MyTracks, param, 0, RequestType.GET);
 				TrackList collection = JsonSerializer.Deserialize<TrackList>(request);
 
 
@@ -83,9 +83,9 @@ namespace SCAPI.Core
 		/// <param name="maxPages"></param>
 		/// <param name="startPage"></param>
 		/// <returns></returns>
-		public static async Task<List<TrackObject>> GetMyStream(int maxPages, int startPage)
+		public static async Task<List<StreamTrack>> GetMyStream(int maxPages, int startPage)
 		{
-			var tracks = new List<TrackObject>();
+			var tracks = new List<StreamTrack>();
 			int page = startPage;
 
 			while (true)
@@ -93,12 +93,12 @@ namespace SCAPI.Core
 				if (page >= maxPages) break;
 				var param = new Dictionary<string, object> { { "limit", 200 }, { "linked_partitioning", page }, { "offset", page * 200 } };
 				var request = await SCApi.ApiRequest(UserRequestType.MyStream, param, null, RequestType.GET);
-				TrackList collection = JsonSerializer.Deserialize<TrackList>(request);
+				StreamList collection = JsonSerializer.Deserialize<StreamList>(request);
 
 
 				if (collection != null && collection.Collection.Count > 0)
 				{
-					foreach (var trackObject in collection.Collection) { tracks.Add(trackObject); }
+					foreach (var trackObject in collection.Collection) { tracks.Add(trackObject.Track); }
 				}
 				else break;
 				page++;

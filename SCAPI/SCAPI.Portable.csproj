@@ -46,6 +46,7 @@
     <Compile Include="Contracts\SetList.cs" />
     <Compile Include="Contracts\SoundCloudAccessToken.cs" />
     <Compile Include="Contracts\StreamObject.cs" />
+    <Compile Include="Contracts\StreamList.cs" />
     <Compile Include="Contracts\TrackList.cs" />
     <Compile Include="Contracts\TrackObject.cs" />
     <Compile Include="Contracts\UserAgent.cs" />

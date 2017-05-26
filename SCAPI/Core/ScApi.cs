@@ -31,28 +31,31 @@ namespace SCAPI.Core
 		/// <returns></returns>
 		public static async Task<string> ApiRequest(UserRequestType rt, Dictionary<string, object> paramsDictionary, object id, RequestType requestType, string jsonObject = "", object id2 = null, string proxyIp = "", int proxyPort = 0, ProxyType proxyType = ProxyType.NO_PROXY, UserAgents userAgents = UserAgents.Windows_NT_6_1_WOW64)
 		{
-			var url = ProcessUserRequest(rt);
-			if (url == null) return "";
-			StringBuilder sb;
-			if (paramsDictionary != null && paramsDictionary.ContainsKey("client_id") && id2 == null)
-				sb = new StringBuilder(string.Format(url, id));
-			else if (paramsDictionary != null && paramsDictionary.ContainsKey("client_id") && id2 != null)
-				sb = new StringBuilder(string.Format(url, id, id2)).Append("?oauth_token=" + SoundCloudClient.AccessToken);
-			else
-				sb = new StringBuilder(string.Format(url, id)).Append("?oauth_token=" + SoundCloudClient.AccessToken);
+			var uriBuilder = new UriBuilder(ProcessUserRequest(rt));
+			HttpValueCollection parameters = new HttpValueCollection();
 
-			if (paramsDictionary != null)
+			if (paramsDictionary != null && paramsDictionary.ContainsKey("client_id") && id2 == null)
 			{
-				foreach (var o in paramsDictionary)
-				{
-					if (o.Key == "client_id")
-						sb.Append("?" + o.Key + "=" + o.Value);
-					else
-						sb.Append("&" + o.Key + "=" + o.Value);
-				}
+				uriBuilder = new UriBuilder(string.Format(ProcessUserRequest(rt), id));
+				parameters["client_id"] = paramsDictionary["client_id"] as string;
+			}
+			else if (paramsDictionary != null && paramsDictionary.ContainsKey("client_id") && id2 != null)
+			{
+				uriBuilder = new UriBuilder(string.Format(ProcessUserRequest(rt), id, id2));
+				parameters["oauth_token"] = SoundCloudClient.AccessToken;
+			}
+			else
+			{
+				uriBuilder = new UriBuilder(string.Format(ProcessUserRequest(rt), id));
+				parameters["oauth_token"] = SoundCloudClient.AccessToken;
 			}
 
-			var request = (HttpWebRequest)WebRequest.Create(sb.ToString());
+			uriBuilder.Query = parameters.ToString();
+
+			Debug.WriteLine("API REQUEST: " + uriBuilder.Uri);
+
+
+			var request = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
 			//if (proxyType == ProxyType.SOCKS4)
 			//{
 			//	var socksProxy = new SocksWebProxy(new ProxyConfig(IPAddress.Parse("127.0.0.1"), 12345, IPAddress.Parse(proxyIp), proxyPort, ProxyConfig.SocksVersion.Four));
@@ -71,7 +74,7 @@ namespace SCAPI.Core
 			request.SetHeader("User-Agent", userAgents.ToString());
 			request.SetHeader("Accept-Encoding", "gzip, deflate");
 			request.Method = requestType.ToString();
-			request.ContentType = "application/json";
+			request.ContentType = "application/x-www-form-urlencoded";
 
 			if (requestType.ToString() == "PUT" && jsonObject != "")
 			{
@@ -81,20 +84,19 @@ namespace SCAPI.Core
 			else
 				request.SetHeader("Content-Length", "0");
 
-			Debug.WriteLine("API REQUEST: " + sb);
 
-			var response = (HttpWebResponse)await request.GetResponseAsync().WithTimeout(1000);
 
-			if (response == null) return string.Empty;
+			HttpWebResponse response = null;
 			try
 			{
-				response = (HttpWebResponse)await request.GetResponseAsync().WithTimeout(1000);
+				response = (HttpWebResponse)await request.GetResponseAsync();
 			}
 			catch (Exception e)
 			{
 				Debug.WriteLine("");
+				return string.Empty;
 			}
-
+			if (response == null) return string.Empty;
 			var stream = response.GetResponseStream();
 			try
 			{

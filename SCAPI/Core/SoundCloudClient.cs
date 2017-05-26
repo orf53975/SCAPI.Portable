@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -96,16 +97,23 @@ namespace SCAPI.Core
 			{
 				try
 				{
+					var uriBuilder = new UriBuilder(SCApi.ProcessUserRequest(UserRequestType.Authenticate));
+					HttpValueCollection parameters = new HttpValueCollection
+					{
+						["client_id"] = ClientId,
+						["client_secret"] = ClientSecret,
+						["grant_type"] = "password",
+						["username"] = Email,
+						["password"] = Password
+					};
+					uriBuilder.Query = parameters.ToString();
 
-					var authUrl = string.Concat(SCApi.ProcessUserRequest(UserRequestType.Authenticate), "?client_id=",
-						WebUtility.UrlEncode(ClientId), "&client_secret=", WebUtility.UrlEncode(ClientSecret),
-						"&grant_type=password&username=", WebUtility.UrlEncode(Email), "&password=", WebUtility.UrlEncode(Password));
-					Debug.WriteLine("API REQUEST: " + authUrl);
-					var request = (HttpWebRequest)WebRequest.Create(authUrl);
+					Debug.WriteLine("API REQUEST: " + uriBuilder.Uri);
+					var request = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
 					request.SetHeader("User-Agent", UserAgent.GetAgent(userAgents));
 
 					request.Method = "POST";
-					request.ContentType = "application/json";
+					request.ContentType = "application/x-www-form-urlencoded";
 					request.SetHeader("Content-Length", "0");
 
 					if (true) request.SetHeader("Accept-Encoding", "gzip, deflate");
@@ -130,7 +138,7 @@ namespace SCAPI.Core
 					//	request.Proxy = httpProxy;
 					//}
 
-					var response = (HttpWebResponse)await request.GetResponseAsync().WithTimeout(1000);
+					var response = (HttpWebResponse)await request.GetResponseAsync();
 					var stream = response.GetResponseStream();
 					try
 					{

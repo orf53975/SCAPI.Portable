@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SCAPI_Core_PCL</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.3</version>
     <title>SCAPI - Sound Cloud API - PCL</title>
     <authors>Jesse Nelson</authors>
     <owners>Jesse Nelson</owners>
